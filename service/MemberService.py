@@ -1,11 +1,24 @@
-import pymysql
-
-
 from config.config_db import connection_db
 
 
-# 도서목록 조회
-def get_books():
+# 회원목록 조회
+def get_members():
+    conn = connection_db()
 
+    try:
+        curs = conn.cursor()
+        sql = '''
+                SELECT *
+                FROM tbl_member;
+              '''
+        curs.execute(sql)
+        rows = curs.fetchall()
+    finally:
+        conn.close()
 
-    conn = connection_db()  # Connection -> MariaDB
+    print('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
+    print(':: ISBN\tNAME\tPHONE\tDATA')
+    print('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
+    for row in rows:
+        print(f':: {row.values()}')
+    print('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
